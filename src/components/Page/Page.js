@@ -1,10 +1,23 @@
 import styled from "styled-components";
 import Aside from "../Aside/index";
 import Header from "../Header/index";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Footer from "../Footer";
+import { TokenContext } from "../../contexts/tokenContext";
+import { useNavigate } from "react-router-dom";
 
 function Page({children}) {
+    
+  const navigate = useNavigate();
+
+  const {token, header} = useContext(TokenContext);
+  
+  useEffect(()=>{
+    if(!token){
+      navigate("/")
+    }
+  })
+
   return (
     <React.Fragment>
       <Aside />

@@ -1,30 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../style";
 import {ThreeDots} from 'react-loader-spinner'
 import useLoginUser from "../../../hooks/api/loginUser";
 import {useLocalstorage} from '../../../hooks/useLocalStorage'
+import {TokenContext} from '../../../contexts/tokenContext'
 
 export const SignIn = ({setSign}) => {
   const {tokenUser, loadingLoginUser, loginUser, loginUserError} = useLoginUser()
-  const [token, setToken] = useState("");
-  const { token: userToken } = useLocalstorage({ key: 'token', value: token }) 
+  const [refresh, setRefresh] = useState(0);
   const [form, setForm] = useState({});
   const navigate = useNavigate();
+  const {setToken, token} = useContext(TokenContext)
 
   useEffect(() => {
     if(loginUserError){
-      alert("Erro ao efetuar o Login", loginUserError)
+      alert("Erro ao efetuar o Login")
     }
-    if(tokenUser !== null && !loadingLoginUser) {
+
+    if(tokenUser) {
       setToken(tokenUser)
+
+        navigate("/home")
+
+      
+
     }
-    if(userToken){
-      navigate("/home")
-    }
-  
-    
-  }, [ loadingLoginUser])
+
+  }, [ loadingLoginUser, loginUserError, refresh])
 
   function atribuirDados(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -33,9 +36,8 @@ export const SignIn = ({setSign}) => {
   function submitForm(event) {
     event.preventDefault(); 
 
-    loginUser(form).then(
-      navigate("/home")
-    )
+    loginUser(form)
+    setToken(tokenUser)
 
   }
 
@@ -61,7 +63,7 @@ export const SignIn = ({setSign}) => {
           atribuirDados(e);
         }}
       ></input>
-       <button onClick={(e)=>{submitForm(e)}}>{loadingLoginUser?<ThreeDots color="red"/>:'Logar-se' }</button>
+       <button onClick={(e)=>{submitForm(e)}}>{loadingLoginUser?<ThreeDots color="steelblue"/>:'Logar-se' }</button>
         <p onClick={()=>{setSign(false)}}>Primeira vez? Cadastre-se!</p>
       
     </Form>

@@ -20,7 +20,7 @@ export const AuthPage = () =>{
 
 const Container = styled.div`
     background-image: url('https://i.imgur.com/zOHtdzU.jpg');
-    background-size: auto;
+    background-size: cover;
     width: 100%;
     height: 100%;
     display: flex;

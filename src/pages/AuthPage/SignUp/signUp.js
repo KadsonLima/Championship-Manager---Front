@@ -74,7 +74,7 @@ export const SignUp = ({ setSign }) => {
           atribuirDados(e);
         }}
       ></input>
-      <button onClick={(e)=>{submitForm(e)}}>{loadingCreatingUser?<ThreeDots color="red"/>:'Enviar' }</button>
+      <button onClick={(e)=>{submitForm(e)}}>{loadingCreatingUser?<ThreeDots color="steelblue"/>:'Enviar' }</button>
       <p
         onClick={() => {
           setSign(true);

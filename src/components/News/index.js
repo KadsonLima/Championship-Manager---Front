@@ -32,9 +32,9 @@ const newObjs = [
 function News() {
   useEffect(() => {}, []);
 
-  const news = newObjs.map((noticia) => {
+  const news = newObjs.map((noticia, index) => {
     return (
-      <New>
+      <New key={index}>
         <h2>{noticia.data}</h2>
         <p>{noticia.new}</p>
       </New>

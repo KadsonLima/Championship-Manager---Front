@@ -1,16 +1,52 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../components/Button";
+import useGetChampionship from "../../hooks/api/getChampionship";
+import {RotatingLines} from 'react-loader-spinner';
+
 
 function AllCamp() {
-
+  const {championship, championshipError, getChampionship, loadingChampionship} = useGetChampionship();
   const [camp, setCamp] = useState(false)
+  useEffect(()=>{
+    getChampionship();
+
+    if(championshipError){
+      alert('Error por favor relogue')
+    }
 
 
-  return (
+  }, [])
+
+  
+
+
+  return <Campeonato loadingChampionship={loadingChampionship} championship={championship}/>
+}
+
+const Campeonato = ({loadingChampionship, championship}) =>{
+  if(loadingChampionship){
+    return <Loading><RotatingLines
+    strokeColor="steelblue"
+    strokeWidth="5"
+    width="96"
+    visible={true}
+  /></Loading>
+  }
+
+  const camps = championship?.map((camp, index)=>{
+    return (
+      
+      <Camp>{camp.name} | TIMES INSCRITOS : {camp._count.subscribes}</Camp>
+      
+
+    )
+  })
+
+  return  (
     <Container>
       <Title>Todos os Campeonatos</Title>
-      <Camp>CAMP 4x4 | TIMES INSCRITOS : 34</Camp>
+        {camps}
       <ButtonCreate>Criar Campeonato</ButtonCreate>
     </Container>
   );
@@ -23,6 +59,16 @@ const Title = styled.h3`
   font-size: x-large;
   margin-bottom: 30px;
 `;
+
+const Loading = styled.div`
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+`
+
 const Camp = styled.div`
   width: 100%;
   max-width: 600px;

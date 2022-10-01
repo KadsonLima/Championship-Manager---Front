@@ -3,6 +3,7 @@ import { AuthPage } from './pages/AuthPage';
 import Home from './pages/Home/index';
 import Camp from './pages/Camp/index';
 import Global from './styles/global';
+import TokenProvider from './contexts/tokenContext';
 import { useState } from 'react';
 
 
@@ -12,12 +13,13 @@ function App() {
   return ( 
     <BrowserRouter>
     <Global/>
+    <TokenProvider>
       <Routes>
         <Route path="/" element={<AuthPage/>}/>
         <Route path="/home" element={<Home/>}/>
         <Route path="/camps" element={<Camp/>}/>
       </Routes>
-    
+      </TokenProvider>
     </BrowserRouter>
   );
 }
