@@ -10,7 +10,15 @@ export const Form = styled.form`
   max-width: 600px;
   width: 100%;
   padding: 18px;
-
+  button{
+    height: 40px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+  }
   input{
     height: 40px;
     width: 100%;

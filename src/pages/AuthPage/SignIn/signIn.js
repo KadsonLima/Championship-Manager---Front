@@ -1,28 +1,42 @@
-import { useState } from "react";
-import { useNavigate , Link} from "react-router-dom";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form } from "../style";
+import {ThreeDots} from 'react-loader-spinner'
+import useLoginUser from "../../../hooks/api/loginUser";
+import {useLocalstorage} from '../../../hooks/useLocalStorage'
 
 export const SignIn = ({setSign}) => {
+  const {tokenUser, loadingLoginUser, loginUser, loginUserError} = useLoginUser()
+  const [token, setToken] = useState("");
+  const { token: userToken } = useLocalstorage({ key: 'token', value: token }) 
   const [form, setForm] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(loginUserError){
+      alert("Erro ao efetuar o Login", loginUserError)
+    }
+    if(tokenUser !== null && !loadingLoginUser) {
+      setToken(tokenUser)
+    }
+    if(userToken){
+      navigate("/home")
+    }
+  
+    
+  }, [ loadingLoginUser])
 
   function atribuirDados(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
   function submitForm(event) {
-    event.preventDefault();
-    axios
-      .post("http://localhost:5000/", form)
-      .then((e) => {
-        //  setToken(e.data)
-        navigate("/home");
-        localStorage.setItem("token", JSON.stringify(e.data));
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    event.preventDefault(); 
+
+    loginUser(form).then(
+      navigate("/home")
+    )
+
   }
 
   return (
@@ -47,7 +61,7 @@ export const SignIn = ({setSign}) => {
           atribuirDados(e);
         }}
       ></input>
-      <input type="submit" value="Entrar"></input>
+       <button onClick={(e)=>{submitForm(e)}}>{loadingLoginUser?<ThreeDots color="red"/>:'Logar-se' }</button>
         <p onClick={()=>{setSign(false)}}>Primeira vez? Cadastre-se!</p>
       
     </Form>
