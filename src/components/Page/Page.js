@@ -21,7 +21,7 @@ function Page({children}) {
   return (
     <React.Fragment>
       <Aside />
-      <Header />
+      <Header token={token}/>
       <Footer/>
       <Container>
           {children}

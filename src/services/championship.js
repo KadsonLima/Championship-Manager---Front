@@ -6,6 +6,12 @@ export async function getAll(){
     return response.data
 }
 
+export async function getById(id){
+    const response = await api.get(`/championship/${id}`)
+
+    return response.data
+}
+
 export async function createChampionship(body){
     const response = await api.post("/sign-in", body)
 

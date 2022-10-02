@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button } from "../../components/Button";
 import useGetChampionship from "../../hooks/api/getChampionship";
 import {RotatingLines} from 'react-loader-spinner';
-
+import {Link} from 'react-router-dom';
 
 function AllCamp() {
   const {championship, championshipError, getChampionship, loadingChampionship} = useGetChampionship();
@@ -35,9 +35,10 @@ const Campeonato = ({loadingChampionship, championship}) =>{
   }
 
   const camps = championship?.map((camp, index)=>{
+
     return (
       
-      <Camp>{camp.name} | TIMES INSCRITOS : {camp._count.subscribes}</Camp>
+      <Camp to={`/camps/${camp.id}`} key={index}>{camp.name} | TIMES INSCRITOS : {camp._count.subscribes}</Camp>
       
 
     )
@@ -69,7 +70,7 @@ const Loading = styled.div`
 
 `
 
-const Camp = styled.div`
+const Camp = styled(Link)`
   width: 100%;
   max-width: 600px;
   height: 40px;
@@ -81,6 +82,13 @@ const Camp = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor:pointer;
+  text-decoration: none;
+  color: black;
+
+  &:hover{
+    color: #3a0ca3;
+  }
 `;
 const ButtonCreate = styled(Button)`
   width: 200px;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {BsFillPeopleFill, BsGem} from 'react-icons/bs';
 import {TbHammer, TbMessages, TbHome} from 'react-icons/tb';
+import {AiOutlineTrophy} from 'react-icons/ai';
 import { Link } from "react-router-dom";
 
 function Footer() {
@@ -10,7 +11,7 @@ function Footer() {
         
         <Container>
             <Link to="/home"><TbHome/></Link>
-            <Link to="/camps"><BsFillPeopleFill/></Link>
+            <Link to="/camps"><AiOutlineTrophy/></Link>
             <Link to="/news"><TbMessages/></Link>
         </Container>
     )

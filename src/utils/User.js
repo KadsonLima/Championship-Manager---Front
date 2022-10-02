@@ -1,13 +1,15 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { TokenContext } from "../contexts/tokenContext";
 
 export default function User(){
-
+    const {token} = useContext(TokenContext)
     return (
         <Container>
-        <img alt="foto" src="https://media.alvanista.com/uploads/timeline_image/2017/09/14/medium_473531_2545907250.jpg"></img>
+        <img alt="foto" src="https://png.pngtree.com/png-vector/20220616/ourmid/pngtree-champion-medal-icon-flat-vector-png-image_5091054.png"></img>
         <div>
-          <span>Jose Leal</span>
-          <span><img alt="clan" src="https://theclassicpw.com/assets/img/528_cla.png"/>General</span>
+          <span>{token?.name}</span>
+          <span><img alt="clan" src="https://theclassicpw.com/assets/img/528_cla.png"/>Staff</span>
         </div>
       </Container>
     )
@@ -38,7 +40,7 @@ const Container = styled.div`
 
         span:last-child{
             display: flex;
-            align-items: center;
+            align-items: end;
             font-size: 10px;
             gap: 4px;
             img{
