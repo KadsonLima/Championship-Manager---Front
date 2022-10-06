@@ -17,13 +17,11 @@ export const Form = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: larger;
   }
   input{
     height: 40px;
     width: 100%;
     text-align: center;
-    font-size: larger;
   }
   h3{
     font-weight: 700;

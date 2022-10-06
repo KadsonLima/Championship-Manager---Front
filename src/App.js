@@ -1,12 +1,12 @@
 import {Route, Routes, BrowserRouter} from 'react-router-dom'
 import { AuthPage } from './pages/AuthPage';
-import Home from './pages/Home/index';
-import Camp from './pages/Camps/index';
-import CampId from './pages/CampId/index';
+import Home from './pages/Home';
+import Camp from './pages/Camps';
+import CampId from './pages/CampId';
 import Global from './styles/global';
 import TokenProvider from './contexts/tokenContext';
 import { useState } from 'react';
-
+import Register from './pages/Register'
 
 function App() {
   const [aside, setAside] = useState(true)
@@ -20,6 +20,7 @@ function App() {
         <Route path="/home" element={<Home/>}/>
         <Route path="/camps" element={<Camp/>}/>
         <Route path="/camps/:id" element={<CampId/>}/>
+        <Route path="/register/:camp" element={<Register/>}/>
       </Routes>
       </TokenProvider>
     </BrowserRouter>

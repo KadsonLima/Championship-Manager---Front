@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useState , useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Form } from "../style";
+import { Form } from "../../../components/Form";
 import {ThreeDots} from 'react-loader-spinner'
 import useCreateUser from "../../../hooks/api/createUser";
 
@@ -18,7 +16,6 @@ export const SignUp = ({ setSign }) => {
   
 
   const [form, setForm] = useState({});
-  const navigate = useNavigate();
 
   function atribuirDados(event) {
     setForm({ ...form, [event.target.name]: event.target.value });

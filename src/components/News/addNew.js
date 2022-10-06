@@ -1,5 +1,5 @@
-import { Form } from "../../pages/AuthPage/style";
-import { useEffect, useState } from "react";
+import { Form } from "../Form";
+import { useState } from "react";
 import styled from "styled-components";
 import {Button} from '../Button'
 

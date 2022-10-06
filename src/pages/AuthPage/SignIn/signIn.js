@@ -1,17 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form } from "../style";
-import {ThreeDots} from 'react-loader-spinner'
+import { Form } from "../../../components/Form";
+import {ThreeDots} from 'react-loader-spinner';
 import useLoginUser from "../../../hooks/api/loginUser";
-import {useLocalstorage} from '../../../hooks/useLocalStorage'
 import {TokenContext} from '../../../contexts/tokenContext'
 
 export const SignIn = ({setSign}) => {
   const {tokenUser, loadingLoginUser, loginUser, loginUserError} = useLoginUser()
-  const [refresh, setRefresh] = useState(0);
   const [form, setForm] = useState({});
   const navigate = useNavigate();
-  const {setToken, token} = useContext(TokenContext)
+  const {setToken} = useContext(TokenContext)
 
   useEffect(() => {
     if(loginUserError){
@@ -21,13 +19,14 @@ export const SignIn = ({setSign}) => {
     if(tokenUser) {
       setToken(tokenUser)
 
-        navigate("/home")
+      navigate("/home")
 
       
 
     }
 
-  }, [ loadingLoginUser, loginUserError, refresh])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ loadingLoginUser, loginUserError])
 
   function atribuirDados(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
