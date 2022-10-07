@@ -83,10 +83,10 @@ const TeamData = (team, index) =>{
   </Team>
   ):(
     <Team onClick={()=>setOpen(!open)}>
-      <span><img src={races[leader]} alt={leader}/>{nameLeader}</span>
-      <span><img src={races[member1]} alt={leader}/>{nameMember1}</span>
-      <span><img src={races[member2]} alt={leader}/>{nameMember2}</span>
-      <span><img src={races[member3]} alt={leader}/>{nameMember3}</span>
+      <div><img src={races[leader]} alt={leader}/><span>{nameLeader}</span></div>
+      <div><img src={races[member1]} alt={leader}/><span>{nameMember1}</span></div>
+      <div><img src={races[member2]} alt={leader}/><span>{nameMember2}</span></div>
+      <div><img src={races[member3]} alt={leader}/><span>{nameMember3}</span></div>
     </Team>
   )
 
@@ -131,12 +131,16 @@ const Team = styled.div`
     filter: contrast(0.2);
   }
 
-  span{
+  div{
     width: 25%;
     display: flex;
     align-items: center;
-    font-size: 1em;
+    font-size: 0.5em;
     gap: 2px;
+    span{
+      width: calc(100% - 18%);
+      overflow-x: hidden;
+    }
     img{
       width: 18%;
     }
