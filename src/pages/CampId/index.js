@@ -1,11 +1,11 @@
 import { useEffect, useState , useContext } from "react";
 import Page from "../../components/Page/Page";
 import styled from "styled-components";
-import { Button } from "../../components/Button";
 import { RotatingLines } from "react-loader-spinner";
 import { Link, useParams } from "react-router-dom";
 import useGetChampionshipById from "../../hooks/api/getChampionshipById";
 import { TokenContext } from "../../contexts/tokenContext";
+import {races} from '../../utils/Races'
 
 function CampId() {
   let { id } = useParams();
@@ -26,7 +26,7 @@ function CampId() {
     if (championshipError) {
       alert("Error por favor relogue");
     }
-  }, []);
+  }, [championshipError]);
 
   return (
     <Campeonato
@@ -62,9 +62,10 @@ const Campeonato = ({ loadingChampionship, championship }) => {
     <Page>
     <Container>
       <Title>{championship?championship.name:'Campeonato'}</Title>
-      {championship&&camps}
       <p>Link de inscrição:</p>
       <LinkSubscribe to={`/register/${championship?.link}`}>{championship?.link}</LinkSubscribe>
+      {championship&&camps}
+ 
     </Container>
     </Page>
   );
@@ -74,18 +75,18 @@ const Campeonato = ({ loadingChampionship, championship }) => {
 const TeamData = (team, index) =>{
 
   const [open, setOpen] = useState(false);
-  const teamRegister = team.team
-
+  const {nameTeam, composition, nameMember1,nameLeader, nameMember2, nameMember3} = team.team
+  const {leader, member1, member2, member3} = composition
   const teamO = (!open)?(
   <Team key={index} onClick={()=>setOpen(!open)}>
-    {teamRegister.name} 
+    {nameTeam} 
   </Team>
   ):(
     <Team onClick={()=>setOpen(!open)}>
-      <span>{teamRegister.lider}</span>
-      <span>{teamRegister.membro1}</span>
-      <span>{teamRegister.membro2}</span>
-      <span>{teamRegister.membro3}</span>
+      <span><img src={races[leader]} alt={leader}/>{nameLeader}</span>
+      <span><img src={races[member1]} alt={leader}/>{nameMember1}</span>
+      <span><img src={races[member2]} alt={leader}/>{nameMember2}</span>
+      <span><img src={races[member3]} alt={leader}/>{nameMember3}</span>
     </Team>
   )
 
@@ -132,7 +133,13 @@ const Team = styled.div`
 
   span{
     width: 25%;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    gap: 2px;
+    img{
+      width: 18%;
+    }
   }
 `;
 const LinkSubscribe = styled(Link)`
@@ -142,6 +149,7 @@ const LinkSubscribe = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
   background-color: #407EC9;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.71);
   cursor: pointer;
