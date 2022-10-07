@@ -1,18 +1,39 @@
 import { Form } from "../Form";
-import { useState } from "react";
+import { useState , useContext} from "react";
 import styled from "styled-components";
 import {Button} from '../Button'
+import { TokenContext } from "../../contexts/tokenContext";
+import useCreateNew from "../../hooks/api/createNew";
+import {RotatingLines} from 'react-loader-spinner';
 
 export function AddNew() {
+  const [form, setForm] = useState({});
   const [add, setAdd] = useState(false);
+  const {token, header} = useContext(TokenContext)
+  const {creatingNewError, loadingCreatingNew, createNew} = useCreateNew();
 
-  const create = <FormNew>
+  function submitForm(event) {
+    event.preventDefault(); 
+    const body = {
+      userId:token.id,
+      text:form,
+    }
+    
+    createNew(body, header)
+  }
+
+  const create = loadingCreatingNew?<FormNew><RotatingLines
+  strokeColor="grey"
+  strokeWidth="5"
+  animationDuration="0.75"
+  width="96"
+  visible={true}
+/></FormNew>:<FormNew>
                     <h3>Criar Aviso</h3>
-                    <input placeholder="Titulo"></input>
-                    <textarea placeholder="texto"></textarea>
+                    <textarea placeholder="texto" onChange={(e) => {setForm(e.target.value)}}></textarea>
                     <div>
                         <button onClick={()=>{setAdd(!add)}}>Cancelar</button>
-                        <button>Enviar</button>
+                        <button onClick={(e)=>{submitForm(e)}}>Enviar</button>
                     </div>
                 </FormNew>
 

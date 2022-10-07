@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import styled from "styled-components";
+import { TokenContext } from "../../contexts/tokenContext";
+import useGetNews from "../../hooks/api/getNew";
 import { AddNew } from "./addNew";
 
 const newObjs = [
@@ -30,13 +32,25 @@ const newObjs = [
 ];
 
 function News() {
-  useEffect(() => {}, []);
+  const {news, loadingNews, getNews, newsError} = useGetNews()
+  const {header} = useContext(TokenContext)
 
-  const news = newObjs.map((noticia, index) => {
+  useEffect(() => {
+    if(newsError){
+      alert(newsError.response)
+    }
+    getNews(header)
+
+  }, []);
+
+  console.log(news)
+
+  const newsAll = news?.map((noticia, index) => {
     return (
       <New key={index}>
-        <h2>{noticia.data}</h2>
-        <p>{noticia.new}</p>
+        <h2>{noticia.createdAt.split("T")[0]}</h2>
+        <p>{noticia.text}</p>
+        <span>{noticia.user.name}</span>
       </New>
     );
   });
@@ -45,7 +59,7 @@ function News() {
     <Home>
       <Container>
         <Title>Avisos</Title>
-        <BoxWidget>{news}</BoxWidget>
+        <BoxWidget>{newsAll}</BoxWidget>
       </Container>
       <AddNew/>
     </Home>
@@ -96,12 +110,13 @@ const New = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  min-height: 30%;
+  min-height: 50%;
   margin-bottom: 2px;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding: 3px 5px;
   background-color: #FFFFFF;
+  position: relative;
   h2 {
     font-size: medium;
     font-weight: 700;
@@ -112,5 +127,12 @@ const New = styled.div`
     text-overflow: ellipsis;
     font-size: small;
     padding: 0 10px;
+  }
+  span{
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    font-size: 0.8em;
+    font-weight: 900;
   }
 `;
