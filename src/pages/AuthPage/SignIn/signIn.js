@@ -45,7 +45,7 @@ export const SignIn = ({setSign}) => {
       onSubmit={(e) => {
         submitForm(e);
       }}
-    ><h3>Championship Manager</h3>
+    ><h3>Jobs Manager</h3>
       <input
         name="email"
         placeholder="E-mail"

@@ -19,7 +19,7 @@ export const AuthPage = () =>{
 }
 
 const Container = styled.div`
-    background-image: url('https://i.imgur.com/zOHtdzU.jpg');
+    background-image: url('https://img.freepik.com/vetores-gratis/escritorio-plano-de-fundo-para-videoconferencia_23-2148641674.jpg');
     background-size: cover;
     width: 100%;
     height: 100%;
