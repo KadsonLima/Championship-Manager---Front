@@ -10,10 +10,14 @@ function Page({children}) {
     
   const navigate = useNavigate();
 
-  const {token, header} = useContext(TokenContext);
+  const {token, header, setToken} = useContext(TokenContext);
   
   useEffect(()=>{
-    if(!token){
+    if(token == null){
+      setToken(JSON.parse(localStorage.getItem('token')))
+    }
+
+    if(!token && !localStorage.token){
       navigate("/")
     }
   })

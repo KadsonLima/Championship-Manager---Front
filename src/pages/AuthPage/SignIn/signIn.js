@@ -18,7 +18,7 @@ export const SignIn = ({setSign}) => {
 
     if(tokenUser) {
       setToken(tokenUser)
-
+      localStorage.setItem('token', JSON.stringify(tokenUser));
       navigate("/home")
 
       
