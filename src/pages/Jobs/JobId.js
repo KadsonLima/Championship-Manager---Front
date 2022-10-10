@@ -12,27 +12,26 @@ export const JobId = () => {
   const { id } = useParams();
   const { job, jobError, loadingJobs, getJob } = useGetJobById();
   const { header , token} = useContext(TokenContext);
-  const {refresh, setRefresh} = useState(0);
+  const [refresh, setRefresh] = useState(null);
 
   useEffect(() => {
     if(token)getJob(id, header);
-    
 
     if (jobError) {
       alert("Error por favor relogue");
     }
-  }, [token]);
+  }, [token, refresh]);
 
   return (
     <Page>
       <Container>
-          <JobDetail loadingJobs={loadingJobs} jobs={job} header={header} setRefresh={setRefresh}/>
+          <JobDetail loadingJobs={loadingJobs} jobs={job} header={header} setRefresh={setRefresh} refresh={refresh}/>
       </Container>
     </Page>
   );
 };
 
-const JobDetail = ({ loadingJobs, jobs , header, setRefresh}) => {
+const JobDetail = ({ loadingJobs, jobs , header, setRefresh, refresh}) => {
  
   if (loadingJobs || !jobs) {
     return (
@@ -47,11 +46,13 @@ const JobDetail = ({ loadingJobs, jobs , header, setRefresh}) => {
     );
   }
   const {job, candidates} = jobs
-  
+
+  setRefresh(job.active)
   function  closeCandidature(job){
 
       api.put(`/jobs/${job.id}`, {}, header).then((e)=>{
-        setRefresh(e.data.id)
+
+        setRefresh(!refresh)
       })
     
   }
@@ -62,9 +63,11 @@ const JobDetail = ({ loadingJobs, jobs , header, setRefresh}) => {
       <p>{job.description}</p>
       <Tags>{job.tags.map((tag, index)=>{return <p key={index}>{tag.tags.name}</p>})}</Tags>
       <Tags>{job.experience.map((exp, index)=>{return <p key={index}>{exp.experience.name}</p>})}</Tags>
+      <CandidateStatus>
       <p>Candidatura : {job.active?"Aberto": "Fechado"}</p>
       <button onClick={()=>{closeCandidature(job)}}>{!job.active?"Abrir Candidatura": "Fechar Candidatura"}</button>
-        <LinkSubscribe to={`/register/${job.link}`}>{`jobManager.com/${job.link}`}</LinkSubscribe>
+      </CandidateStatus>
+      <LinkSubscribe to={`/register/${job.link}`}>{`jobManager.com/${job.link}`}</LinkSubscribe>
 
     </JobData>
   );
@@ -100,17 +103,24 @@ const JobDetail = ({ loadingJobs, jobs , header, setRefresh}) => {
         </BoxTabled>
   );
 };
+const CandidateStatus = styled.div`
+  display:flex;
+    justify-content: space-between;
+    align-items: center;
 
+`
 const JobData = styled.div`
   padding: 0 20px;
   display: flex;
   flex-direction: column;
+  gap:5px;
   button{
     width:200px
   }
   h3 {
     margin: 0;
   }
+
 `;
 
 const Tags = styled.div`
