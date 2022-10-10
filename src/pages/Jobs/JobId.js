@@ -11,16 +11,17 @@ import api from '../../services/api'
 export const JobId = () => {
   const { id } = useParams();
   const { job, jobError, loadingJobs, getJob } = useGetJobById();
-  const { header } = useContext(TokenContext);
+  const { header , token} = useContext(TokenContext);
   const {refresh, setRefresh} = useState(0);
 
   useEffect(() => {
-    getJob(id, header);
+    if(token)getJob(id, header);
+    
 
     if (jobError) {
       alert("Error por favor relogue");
     }
-  }, []);
+  }, [token]);
 
   return (
     <Page>

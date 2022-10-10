@@ -8,15 +8,15 @@ import Page from "../../components/Page/Page";
 
 function Jobs() {
   const { jobs, jobError, getJobs, loadingJobs } = useGetJobs();
-  const { header } = useContext(TokenContext);
+  const { header , token} = useContext(TokenContext);
 
   useEffect(() => {
-    getJobs(header);
+    if(token) getJobs(header);
 
     if (jobError) {
       alert("Error por favor relogue");
     }
-  }, []);
+  }, [token]);
 
   return <JobsList loadingJobs={loadingJobs} jobs={jobs} />;
 }

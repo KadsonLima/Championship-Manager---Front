@@ -8,15 +8,15 @@ import { CandidatesList } from "./Candidates";
 
 function Home() {
   const { jobs, jobError, getJobs, loadingJobs } = useGetCandidates();
-  const { header } = useContext(TokenContext);
+  const { header, token } = useContext(TokenContext);
 
   useEffect(() => {
-    getJobs(header);
+    if(token) getJobs(header);
 
     if (jobError) {
       alert("Error por favor relogue");
     }
-  }, []);
+  }, [token]);
 
   return <CandidatesList loadingJobs={loadingJobs} jobs={jobs} />;
   }
