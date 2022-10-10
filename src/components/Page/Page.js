@@ -36,7 +36,7 @@ export default Page;
 const Container = styled.div`
   margin: 0 0 0 230px;
   padding: 60px 20px 20px 20px;
-  background-color: #FFFFFF;
+  background-color: #ecf0f5;
   width: calc(100% - 230px);
   height: 100%;
   display: flex;

@@ -1,4 +1,4 @@
-import { registerTeam } from "../../services/championship"
+import { registerTeam } from "../../services/jobs"
 import useAsync from "../useAsync"
 
 export default function useRegisterTeam() {

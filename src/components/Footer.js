@@ -11,7 +11,7 @@ function Footer() {
         
         <Container>
             <Link to="/home"><TbHome/></Link>
-            <Link to="/camps"><AiOutlineTrophy/></Link>
+            <Link to="/jobs"><AiOutlineTrophy/></Link>
             <Link to="/news"><TbMessages/></Link>
         </Container>
     )

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { News } from "../../components/News";
 import Page from "../../components/Page/Page";
 
 
@@ -8,7 +7,6 @@ function Home() {
     return (
       <Page>
         <Container>
-          <News/>
         </Container>
       </Page>
     );

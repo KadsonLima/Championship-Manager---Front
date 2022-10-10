@@ -1,5 +1,5 @@
 import useAsync from "../useAsync"
-import { createChampionship } from "../../services/championship"
+import { createChampionship } from "../../services/jobs"
 
 export default function useCreateChampionship() {
 	const { data, loading, act, error } = useAsync(createChampionship, false)

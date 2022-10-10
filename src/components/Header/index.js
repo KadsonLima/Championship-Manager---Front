@@ -10,7 +10,7 @@ function Header() {
     return(
         
         <Container>
-            <Title>Championship Manager</Title>
+            <Title>Jobs Manager</Title>
             <Head>
                 <User/>
             </Head>
