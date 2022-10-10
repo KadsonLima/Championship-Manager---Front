@@ -26,12 +26,10 @@ export const Form = styled.form`
   h3{
     font-weight: 700;
     font-size: xx-large;
-    color: #d3d3d3;
   }
   p{
     text-align:center;
     font-weight: 700;
-    color: #d3d3d3;
     cursor: pointer;    
   }
 
