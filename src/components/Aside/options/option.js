@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import {BsFillPeopleFill, BsGem} from 'react-icons/bs';
-import {TbHammer, TbMessages, TbHome} from 'react-icons/tb';
+import {TbHammer, TbMessages, TbHome, TbBriefcase} from 'react-icons/tb';
 import {AiOutlineTrophy} from 'react-icons/ai';
 import {Link} from 'react-router-dom';
 
 
 const options = [
     {option:<TbHome/>, tipo:'Inicio', a:'/home'},
-    {option:<AiOutlineTrophy/>, tipo:'Vagas', a:'/jobs'},
+    {option:<TbBriefcase/>, tipo:'Vagas', a:'/jobs'},
     {option:<TbMessages/>, tipo:'Notícias', a:'/news'},
     {option:<TbHammer/>, tipo:'War', a:'/war'}
 ]

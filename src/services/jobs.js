@@ -6,6 +6,12 @@ export async function getJobs(header){
     return response.data
 }
 
+export async function getCandidates(header){
+    const response = await api.get("/jobs/curriculos", header)
+
+    return response.data
+}
+
 export async function getById(id, header){
     const response = await api.get(`/jobs/${id}`, header)
 

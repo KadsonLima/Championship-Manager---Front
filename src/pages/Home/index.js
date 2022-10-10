@@ -1,15 +1,24 @@
+import { useContext , useEffect} from "react";
 import styled from "styled-components";
-import Page from "../../components/Page/Page";
+import { TokenContext } from "../../contexts/tokenContext";
+import useGetCandidates from "../../hooks/api/getCandidates";
+import { CandidatesList } from "./Candidates";
 
 
 
 function Home() {
-    return (
-      <Page>
-        <Container>
-        </Container>
-      </Page>
-    );
+  const { jobs, jobError, getJobs, loadingJobs } = useGetCandidates();
+  const { header } = useContext(TokenContext);
+
+  useEffect(() => {
+    getJobs(header);
+
+    if (jobError) {
+      alert("Error por favor relogue");
+    }
+  }, []);
+
+  return <CandidatesList loadingJobs={loadingJobs} jobs={jobs} />;
   }
   
 export default Home;
