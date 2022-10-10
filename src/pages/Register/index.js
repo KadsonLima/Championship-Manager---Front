@@ -1,148 +1,96 @@
-import { useState , useEffect} from "react";
+import { useState , useEffect, useRef} from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Form } from "../../components/Form";
-import {ThreeDots} from 'react-loader-spinner'
 import useRegisterTeam from "../../hooks/api/registerTeam";
-
+import { Loading } from "../Jobs";
+import { RotatingLines } from "react-loader-spinner";
+import useGetJobByRegister from "../../hooks/api/getJobRegister";
 
 
 
 function Register() {
   const { loadingRegisterTeam, registerTeam, registerTeamError } = useRegisterTeam();
-  const {camp} = useParams()
+  const {link} = useParams()
   const [form, setForm] = useState({});
+  const files = useRef(null)
+  const { job, jobError, loadingJobs, getJob } = useGetJobByRegister();
   useEffect(()=>{
     if(registerTeamError){
       alert(registerTeamError.response.data)
     }
+    getJob(link)
+
   }, [registerTeamError])
+
+
   function atribuirDados(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
-    console.log(form)
   }
 
-  function submitForm(event) {
+  const sendFile = async (event) => {
     event.preventDefault();
-    registerTeam(form, camp)
-    
-  }
+    const dataForm = new FormData();
+    for (const file of files.current.files) {
+      dataForm.append('curriculum', file);
+    }
+    dataForm.append('name', form.name);
+    dataForm.append('email', form.email);
+    dataForm.append('numberContact', form.numberContact);
+
+    registerTeam(dataForm, link)
+
+  };
 
     return (
       <Container>
         <FormTeam>
-        <h3>CAMPEONATO</h3>
-        <span>Registrar Time</span>
-          <input name="nameTeam" placeholder="Nome do Time" onChange={(e) => {
+        <JobDescription job={job} loadingJobs={loadingJobs}/>
+        <span>Candidatar-se</span>
+          <input name="name" placeholder="Nome Completo" onChange={(e) => {
           atribuirDados(e);
         }}/>
           <input name="numberContact"  placeholder="Numero de Contato" onChange={(e) => {
           atribuirDados(e);
         }}/>
-          <input name="nameLeader" placeholder="Nome do Lider" onChange={(e) => {
+          <input name="email" placeholder="Email" onChange={(e) => {
           atribuirDados(e);
         }}/>
-          <ChoiceClass membro={'leader'} atribuirDados={atribuirDados}/>
-          <input name="nameMember1" placeholder="Nome do Membro 1" onChange={(e) => {
-          atribuirDados(e);
-        }}/>
-          <ChoiceClass membro={'member1'} atribuirDados={atribuirDados}/>
-          <input name="nameMember2" placeholder="Nome do Membro 2" onChange={(e) => {
-          atribuirDados(e);
-        }}/>
-          <ChoiceClass membro={'member2'} atribuirDados={atribuirDados}/>
-          <input name="nameMember3" placeholder="Nome do Membro 3" onChange={(e) => {
-          atribuirDados(e);
-        }}/>
-          <ChoiceClass membro={'member3'} atribuirDados={atribuirDados}/>
-          <button onClick={(e)=>{submitForm(e)}}>{loadingRegisterTeam?<ThreeDots color="steelblue"/>:'Enviar' }</button>
+        <input type="file" accept="application/pdf" ref={files}/>
+          <button onClick={(e)=>{sendFile(e)}}>{loadingRegisterTeam?<RotatingLines color="steelblue"/>:'Enviar' }</button>
         </FormTeam>
       </Container>
     );
   }
+
+  function JobDescription({job, loadingJobs}){
+
+    if (loadingJobs || !job) {
+      return (
+        <Loading>
+          <RotatingLines
+            strokeColor="steelblue"
+            strokeWidth="5"
+            width="96"
+            visible={true}
+          />
+        </Loading>
+      );
+    }
+
+    return (
+      <BoxTable>
+      <JobData>
+      <h3>{job.name}</h3>
+      <p>{job.description}</p>
+      <Tags>{job.tags.map((tag, index)=>{return <p key={index}>{tag.tags.name}</p>})}</Tags>
+      <Tags>{job.experience.map((exp, index)=>{return <p key={index}>{exp.experience.name}</p>})}</Tags>
+      <p>Candidatura : {job.active?"Aberto": "Fechado"}</p>
+    </JobData></BoxTable>
+    )
+  }
   
 export default Register;
-
-
-function ChoiceClass({membro, atribuirDados}){
-  const classes = [
-    { 
-      class:'WR',
-      img:'https://cdn.streamelements.com/uploads/99238d91-e417-43cc-94d9-ac0019df8e9b.png', 
-      mvp:'https://cdn.streamelements.com/uploads/29fa8ec8-4893-49d8-8636-a605e993de83.png'
-    },{ 
-      class:'MG',
-      img:'https://cdn.streamelements.com/uploads/cf46a848-59b0-4874-9c8f-3f54d5fa4869.png', 
-      mvp:'https://cdn.streamelements.com/uploads/307d5b36-a5cb-441b-a7cd-4533e43bd943.png'
-    
-    },{ 
-      class:'WB',
-      img:'https://cdn.streamelements.com/uploads/b71925f6-331b-407d-a189-100cde62690c.png',
-      mvp:'https://cdn.streamelements.com/uploads/bd2d2b4c-a262-473d-9490-76c22ae029b6.png'
-    
-    },{ 
-      class:'WF',
-      img:'https://cdn.streamelements.com/uploads/50a2548d-1a28-4fff-8283-5c303dab29a6.png', 
-      mvp: 'https://cdn.streamelements.com/uploads/ec3ef2a3-0214-440b-91fb-e312f9242f9f.png'
-  
-    },{ 
-      class:'EA',
-      img:'https://cdn.streamelements.com/uploads/694f39a6-a4d0-4620-bc24-1086df594d55.png', 
-    mvp: 'https://cdn.streamelements.com/uploads/e710a111-b450-4e35-a1bf-9f80d6fbcb58.png'
-  
-    },{ 
-      class:'EP',
-      img:'https://cdn.streamelements.com/uploads/22ba17e8-2f61-41cc-b7b0-53b4197021df.png',
-    mvp:'https://cdn.streamelements.com/uploads/3c3d42b9-f08a-45b1-aae3-26113df64bc9.png'
-    
-    },
-    ]
-  
-  const choice = <ClassContainer>{classes.map((classe, index) =>{
-
-    return <ClasseBox>
-        <img src={classe.img} alt={classe.class} />
-        <input name={membro} type="radio" value={classe.class} onChange={(e) => {
-          atribuirDados(e);
-        }}/>
-      </ClasseBox>
-
-  })}</ClassContainer>
-
-
-  return choice
-
-}
-
-const ClassContainer = styled.div`
-  width: 100%;
-  justify-content: space-between;
-`
-
-const ClasseBox = styled.div`
-    position:relative;
-
-  img{
-    border-radius: 50%;
-    border: 2px solid rgb(255,179,0);
-  }
-
-  input{
-    opacity:0;
-    position:absolute;
-    z-index:1;
-    cursor:pointer;
-
-  }
-
-  input:checked {
-    display:grid;
-    opacity: 0.4;
-    color:blue;
-    fill: rgb(239, 42, 16);
-  }
-
-`
 
 const Container = styled.div`
     width: 100%;
@@ -152,14 +100,27 @@ const Container = styled.div`
     background-color:steelblue;
 
 `
+const BoxTable = styled.div`
+max-width: 900px;
+width: 100%;
+background-color:#ffffff;
+padding: 20px 0;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.71);
+
+h3{
+  font-weight: 500;
+font-size: large;
+margin-bottom: 20px;
+margin-left:20px;
+
+}
+`;
 
 const FormTeam = styled(Form)`
   background-color: rgba(255, 255, 255, 0.5);
+  color:black;
   div{
     display:flex
-  }
-  h3{
-    color:white;
   }
 
   button{
@@ -177,3 +138,38 @@ const FormTeam = styled(Form)`
 
 
 `
+
+const JobData = styled.div`
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  button{
+    width:200px
+  }
+  h3 {
+    margin: 10px 0;
+    color: #0e1012;
+    font-size: xx-large;
+  }
+
+  p{
+    color: #0e1012;
+  }
+`;
+
+const Tags = styled.div`
+  display: flex;
+  gap:5px;
+  margin-bottom:3px;
+
+  p {
+    font-size: smaller;
+    box-sizing: content-box;
+    padding: 2px 4px;
+    border: 1px solid gray;
+    display:flex;
+    align-items:center;
+    color:#0e1012;
+  }
+`;
+

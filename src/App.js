@@ -20,7 +20,7 @@ function App() {
         <Route path="/home" element={<Home/>}/>
         <Route path="/jobs" element={<Jobs/>}/>
         <Route path="/job/:id" element={<JobId/>}/>
-        <Route path="/register/:job" element={<Register/>}/>
+        <Route path="/register/:link" element={<Register/>}/>
       </Routes>
       </TokenProvider>
     </BrowserRouter>

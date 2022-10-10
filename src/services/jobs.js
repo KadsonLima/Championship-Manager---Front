@@ -18,6 +18,11 @@ export async function getById(id, header){
     return response.data
 }
 
+export async function getJobById(id){
+    const response = await api.get(`/register/${id}`)
+
+    return response.data
+} 
 
 export async function registerTeam(body, camp){
     const response = await api.post(`/register/${camp}`, body)

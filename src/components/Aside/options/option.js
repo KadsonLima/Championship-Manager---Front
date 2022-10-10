@@ -7,9 +7,7 @@ import {Link} from 'react-router-dom';
 
 const options = [
     {option:<TbHome/>, tipo:'Inicio', a:'/home'},
-    {option:<TbBriefcase/>, tipo:'Vagas', a:'/jobs'},
-    {option:<TbMessages/>, tipo:'Notícias', a:'/news'},
-    {option:<TbHammer/>, tipo:'War', a:'/war'}
+    {option:<TbBriefcase/>, tipo:'Vagas', a:'/jobs'}
 ]
 
 function Options() {
