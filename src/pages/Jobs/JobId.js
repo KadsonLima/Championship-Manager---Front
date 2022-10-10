@@ -9,8 +9,9 @@ import { RotatingLines } from "react-loader-spinner";
 
 export const JobId = () => {
   const { id } = useParams();
-  const { header } = useContext(TokenContext);
   const { job, jobError, loadingJobs, getJob } = useGetJobById();
+  const { header } = useContext(TokenContext);
+
 
   useEffect(() => {
     getJob(id, header);
@@ -44,7 +45,7 @@ const JobDetail = ({ loadingJobs, jobs }) => {
     );
   }
   const {job, candidates} = jobs
-  console.log(job)
+  console.log(candidates)
 
   const jobData = job && (
     <JobData>
@@ -64,8 +65,7 @@ const JobDetail = ({ loadingJobs, jobs }) => {
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Número</th>
-          <th>E-Mail</th>
+          <th>Curriculo</th>
         </tr>
       </thead>
       <tbody>
@@ -73,8 +73,7 @@ const JobDetail = ({ loadingJobs, jobs }) => {
           return (
             <tr key={index}>
               <td>{candidate.candidate.name}</td>
-              <td>{candidate.candidate.numberContact}</td>
-              <td>{candidate.candidate.email}</td>
+              <td><a href={candidate.candidate.curriculum}>Curriculo</a></td>
             </tr>
           );
         })}
@@ -125,6 +124,7 @@ const BoxTabled = styled(BoxTable)`
     }
     td:nth-of-type(3),th:nth-of-type(3) {
       width: 200px;
+      font-size: xx-small;
     }
     
     td:nth-of-type(2),th:nth-of-type(2) {
