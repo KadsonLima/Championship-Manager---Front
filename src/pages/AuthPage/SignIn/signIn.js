@@ -1,71 +1,121 @@
-import { useState, useEffect, useContext } from "react";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { createTheme, ThemeProvider ,Container, Typography, Box, Grid, Link, Checkbox} from '@mui/material/';
+import  Logo  from '../../../assets/img/logo.png';
+import useAsync from '../../../hooks/useAsync';
+import * as auth from '../../../services/auth';
+import {TokenContext} from '../../../contexts/tokenContext';
 import { useNavigate } from "react-router-dom";
-import { Form } from "../../../components/Form";
-import {ThreeDots} from 'react-loader-spinner';
-import useLoginUser from "../../../hooks/api/loginUser";
-import {TokenContext} from '../../../contexts/tokenContext'
 
-export const SignIn = ({setSign}) => {
-  const {tokenUser, loadingLoginUser, loginUser, loginUserError} = useLoginUser()
-  const [form, setForm] = useState({});
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="#">
+        JobManager
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const theme = createTheme();
+
+export default function SignIn({setSign}) {
+  const { data:response, loading, error , act} = useAsync(auth.signIn, false);
+  const {setToken, token} = React.useContext(TokenContext)
   const navigate = useNavigate();
-  const {setToken} = useContext(TokenContext)
 
-  useEffect(() => {
-    if(loginUserError){
-      alert("Erro ao efetuar o Login")
+  React.useEffect(()=>{
+
+    if(error){
+      alert(error.message)
     }
-
-    if(tokenUser) {
-      setToken(tokenUser)
-      localStorage.setItem('token', JSON.stringify(tokenUser));
-      navigate("/home")
-
-      
+    if(response) {
+      setToken(response)
+      localStorage.setItem('token', JSON.stringify(response));
+      navigate("/home")  
 
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ loadingLoginUser, loginUserError])
+  },[error, response, token])
 
-  function atribuirDados(event) {
-    setForm({ ...form, [event.target.name]: event.target.value });
-  }
-
-  function submitForm(event) {
-    event.preventDefault(); 
-
-    loginUser(form)
-    setToken(tokenUser)
-
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const body = {
+    email: data.get('email'),
+    password: data.get('password')
+    }
+    act(body).then((e)=>{
+      console.log(response)
+    });
+  };
 
   return (
-    <Form
-      onSubmit={(e) => {
-        submitForm(e);
-      }}
-    ><h3>Jobs Manager</h3>
-      <input
-        name="email"
-        placeholder="E-mail"
-        type="email"
-        onChange={(e) => {
-          atribuirDados(e);
-        }}
-      ></input>
-      <input
-        name="password"
-        placeholder="Senha"
-        type="password"
-        onChange={(e) => {
-          atribuirDados(e);
-        }}
-      ></input>
-       <button onClick={(e)=>{submitForm(e)}}>{loadingLoginUser?<ThreeDots color="steelblue"/>:'Logar-se' }</button>
-        <p onClick={()=>{setSign(false)}}>Primeira vez? Cadastre-se!</p>
-      
-    </Form>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+            <img src={Logo} alt={Logo}/>
+          <Typography component="h1" variant="h5">
+            JobManager
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" onChange={(e)=>{handleSubmit(e)}}/>}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link onClick={()=>{setSign(false)}} variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
   );
-};
-
+}

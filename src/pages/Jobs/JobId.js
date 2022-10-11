@@ -108,15 +108,17 @@ const CandidateStatus = styled.div`
     justify-content: space-between;
     align-items: center;
 
+  button{
+    padding: 3px;
+  }
 `
+
 const JobData = styled.div`
   padding: 0 20px;
   display: flex;
   flex-direction: column;
   gap:5px;
-  button{
-    width:200px
-  }
+  
   h3 {
     margin: 0;
   }
