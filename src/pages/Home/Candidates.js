@@ -29,7 +29,6 @@ export const CandidatesList = ({ loadingJobs, jobs }) => {
         </thead>
         <tbody>
         {jobs?.map((job, index) => {
-          console.log(job)
           return (
             <tr key={index}>
               <td>{job.name}</td>
@@ -43,20 +42,17 @@ export const CandidatesList = ({ loadingJobs, jobs }) => {
 
   
     return (
-      <Page>
         <Container>
           <BoxTable>
           <h3>Candidaturas Recentes</h3>
             {camps}
             </BoxTable>
         </Container>
-      </Page>
     );
   };
 
   
  const BoxTable = styled.div`
-    max-width: 900px;
     width: 100%;
     background-color:#ffffff;
     padding: 20px 0;
@@ -75,11 +71,10 @@ export const CandidatesList = ({ loadingJobs, jobs }) => {
   
   export const Container = styled.div`
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  
+    margin-bottom: 20px;
     table{
       display:flex;
       flex-direction:column;

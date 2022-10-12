@@ -8,7 +8,6 @@ export const Container = styled.div`
     display: flex;
     color: white;
     position: fixed;
-    z-index: 1;
     left: 0;
     top: 0;
     box-shadow: 0px 2px 2px -2px #fff; 

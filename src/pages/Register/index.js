@@ -36,7 +36,6 @@ function Register() {
     }
     dataForm.append('name', form.name);
     dataForm.append('email', form.email);
-    dataForm.append('numberContact', form.numberContact);
 
     registerTeam(dataForm, link)
 
@@ -50,9 +49,7 @@ function Register() {
           <input name="name" placeholder="Nome Completo" onChange={(e) => {
           atribuirDados(e);
         }}/>
-          <input name="numberContact"  placeholder="Numero de Contato" onChange={(e) => {
-          atribuirDados(e);
-        }}/>
+
           <input name="email" placeholder="Email" onChange={(e) => {
           atribuirDados(e);
         }}/>

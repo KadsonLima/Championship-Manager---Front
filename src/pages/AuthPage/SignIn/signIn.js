@@ -4,11 +4,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { createTheme, ThemeProvider ,Container, Typography, Box, Grid, Link, Checkbox} from '@mui/material/';
-import  Logo  from '../../../assets/img/logo.png';
+import  Logo  from '../../../assets/img/JobManager.png';
 import useAsync from '../../../hooks/useAsync';
 import * as auth from '../../../services/auth';
 import {TokenContext} from '../../../contexts/tokenContext';
 import { useNavigate } from "react-router-dom";
+import { RotatingLines } from 'react-loader-spinner';
 
 function Copyright(props) {
   return (
@@ -56,6 +57,13 @@ export default function SignIn({setSign}) {
     });
   };
 
+  const loadingTime = loading?<RotatingLines
+  strokeColor="white"
+  strokeWidth="5"
+  width="20"
+  visible={true}
+/>:'Sign In'
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -68,8 +76,9 @@ export default function SignIn({setSign}) {
             alignItems: 'center',
           }}
         >
-            <img src={Logo} alt={Logo}/>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4">
+          <img src={Logo} alt={Logo} width="100"/>
+
             JobManager
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -103,7 +112,7 @@ export default function SignIn({setSign}) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+            {loadingTime}
             </Button>
             <Grid container>
               <Grid item>

@@ -10,7 +10,9 @@ export const AuthPage = () =>{
     return (
     
         <Container>
+            <Auth>
             {sign?<SignIn setSign={setSign} />:<SignUp setSign={setSign}/>}
+            </Auth>
         </Container>
         
     )
@@ -24,6 +26,13 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    
 
 
+`
+const Auth = styled.div`
+    padding: 10px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 30px;
+    box-shadow: 0px 8px 8px rgba(0,0,0,0.71);
 `

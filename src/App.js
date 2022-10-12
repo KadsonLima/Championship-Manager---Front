@@ -9,7 +9,7 @@ import Register from './pages/Register'
 import { JobId } from './pages/Jobs/JobId';
 
 function App() {
-  const [aside, setAside] = useState(true)
+  
 
   return ( 
     <BrowserRouter>
