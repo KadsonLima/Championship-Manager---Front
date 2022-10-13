@@ -22,6 +22,12 @@ export const Form = styled.form`
     height: 40px;
     width: 100%;
     text-align: center;
+    
+  }
+  textarea{
+    width: 100%;
+    padding: 5px;
+    height: 80px;
   }
   h3{
     font-weight: 700;

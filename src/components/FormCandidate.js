@@ -8,7 +8,7 @@ import { Form } from "./Form";
 import Modal from "react-modal";
 import { TokenContext } from "../contexts/tokenContext";
 
-export const FormJob = ({ header }) => {
+export const FormCandidate = ({ header }) => {
   const { modalIsOpen, setIsOpen } = useContext(TokenContext);
   const [form, setForm] = useState({});
   const files = useRef(null);

@@ -6,33 +6,43 @@ import Page from "../../components/Page/Page";
 import { TokenContext } from "../../contexts/tokenContext";
 import useGetJobById from "../../hooks/api/getJobById";
 import { RotatingLines } from "react-loader-spinner";
-import api from '../../services/api'
+import api from "../../services/api";
+import { Chip, Button } from "@mui/material";
 
 export const JobId = () => {
   const { id } = useParams();
   const { job, jobError, loadingJobs, getJob } = useGetJobById();
-  const { header , token} = useContext(TokenContext);
+  const { header, token } = useContext(TokenContext);
   const [refresh, setRefresh] = useState(null);
 
   useEffect(() => {
-    if(token)getJob(id, header);
+    if (token) getJob(id, header);
 
     if (jobError) {
       alert("Error por favor relogue");
     }
+
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, refresh]);
 
   return (
     <Page>
       <Container>
-          <JobDetail loadingJobs={loadingJobs} jobs={job} header={header} setRefresh={setRefresh} refresh={refresh}/>
+        <JobDetail
+          loadingJobs={loadingJobs}
+          jobs={job}
+          header={header}
+          setRefresh={setRefresh}
+          refresh={refresh}
+        />
       </Container>
     </Page>
   );
 };
 
-const JobDetail = ({ loadingJobs, jobs , header, setRefresh, refresh}) => {
- 
+const JobDetail = ({ loadingJobs, jobs, header, setRefresh, refresh }) => {
+  const [loading, setLoading] = useState(false);
   if (loadingJobs || !jobs) {
     return (
       <Loading>
@@ -45,118 +55,166 @@ const JobDetail = ({ loadingJobs, jobs , header, setRefresh, refresh}) => {
       </Loading>
     );
   }
-  const {job, candidates} = jobs
+  const { job, candidates } = jobs;
 
-  setRefresh(job.active)
-  function  closeCandidature(job){
-
-      api.put(`/jobs/${job.id}`, {}, header).then((e)=>{
-
-        setRefresh(!refresh)
-      })
-    
+  setRefresh(job.active);
+  function closeCandidature(job) {
+    setLoading(true);
+    api.put(`/jobs/${job.id}`, {}, header).then((e) => {
+      setRefresh(!refresh);
+      setLoading(false);
+    });
   }
 
   const jobData = job && (
     <JobData>
       <h3>{job.name}</h3>
       <p>{job.description}</p>
-      <Tags>{job.tags.map((tag, index)=>{return <p key={index}>{tag.tags.name}</p>})}</Tags>
-      <Tags>{job.experience.map((exp, index)=>{return <p key={index}>{exp.experience.name}</p>})}</Tags>
+      <Tags>
+        {job.tags.map((tag, index) => {
+          return <Chip index={index} size="small" label={tag.tags.name} />
+        })}
+      </Tags>
+      <Tags>
+        {job.experience.map((exp, index) => {
+          return <Chip index={index} size="small" label={exp.experience.name} />
+        })}
+      </Tags>
       <CandidateStatus>
-      <p>Candidatura : {job.active?"Aberto": "Fechado"}</p>
-      <button onClick={()=>{closeCandidature(job)}}>{!job.active?"Abrir Candidatura": "Fechar Candidatura"}</button>
+        <div>
+          Candidatura :{" "}
+          {job.active ? (
+            <Chip label="Aberta" size="small" color="success" />
+          ) : (
+            <Chip size="small" label="Fechada" color="error" />
+          )}
+        </div>
+        {!job.active ? (
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => {
+              closeCandidature(job);
+            }}
+          >
+            {loading ? (
+              <RotatingLines
+                strokeColor="white"
+                strokeWidth="5"
+                width="10"
+                visible={true}
+              />
+            ) : (
+              "Abrir"
+            )}
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="small"
+            color="error"
+            onClick={() => {
+              closeCandidature(job);
+            }}
+          >
+            {loading ? (
+              <RotatingLines
+                strokeColor="white"
+                strokeWidth="5"
+                width="10"
+                visible={true}
+              />
+            ) : (
+              "Fechar"
+            )}
+          </Button>
+        )}
       </CandidateStatus>
-      <LinkSubscribe to={`/register/${job.link}`}>{`jobManager.com/${job.link}`}</LinkSubscribe>
-
+      <LinkSubscribe
+        to={`/register/${job.link}`}
+      >{`jobManager.com/${job.link}`}</LinkSubscribe>
     </JobData>
   );
 
-
-  const camps = (<>
-    {jobData}
-    <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Curriculo</th>
-        </tr>
-      </thead>
-      <tbody>
-        {candidates?.map((candidate, index) => {
-          return (
-            <tr key={index}>
-              <td>{candidate.candidate.name}</td>
-              <td><a href={candidate.candidate.curriculum}>Curriculo</a></td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+  const camps = (
+    <>
+      {jobData}
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Curriculo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {candidates?.map((candidate, index) => {
+            return (
+              <tr key={index}>
+                <td>{candidate.candidate.name}</td>
+                <td>
+                  <a href={candidate.candidate.curriculum}>Curriculo</a>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </>
   );
 
-  return (
-
-        <BoxTabled>
-          {camps}
-        </BoxTabled>
-  );
+  return <BoxTabled>{camps}</BoxTabled>;
 };
 const CandidateStatus = styled.div`
-  display:flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  button{
+  span {
+    overflow:visible;
+  }
+  button {
     padding: 3px;
   }
-`
+`;
 
 const JobData = styled.div`
   padding: 0 20px;
   display: flex;
   flex-direction: column;
-  gap:5px;
-  
+  gap: 5px;
+
   h3 {
     margin: 0;
   }
-
 `;
 
 const Tags = styled.div`
+
   display: flex;
-  gap:5px;
-  margin-bottom:3px;
+  gap: 5px;
+  margin-bottom: 3px;
 
-  p {
-    font-size: smaller;
-    box-sizing: content-box;
-    padding: 2px 4px;
-    border: 1px solid gray;
-    display:flex;
-    align-items:center;
-
+  span {
+    overflow:visible;
   }
 `;
 
 const BoxTabled = styled(BoxTable)`
+  tr {
+    display: flex;
+    justify-content: space-between;
+  }
+  td:nth-of-type(3),
+  th:nth-of-type(3) {
+    width: 200px;
+    font-size: xx-small;
+  }
 
-    tr{
-        display:flex;
-        justify-content: space-between;
-    }
-    td:nth-of-type(3),th:nth-of-type(3) {
-      width: 200px;
-      font-size: xx-small;
-    }
-    
-    td:nth-of-type(2),th:nth-of-type(2) {
-      width: 120px;
-    }
-
-`
+  td:nth-of-type(2),
+  th:nth-of-type(2) {
+    width: 120px;
+  }
+`;
 
 const LinkSubscribe = styled(Link)`
   height: 20px;

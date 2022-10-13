@@ -10,6 +10,7 @@ import * as auth from '../../../services/auth';
 import {TokenContext} from '../../../contexts/tokenContext';
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from 'react-loader-spinner';
+import { LogoJobManager } from '../../../components/Logo';
 
 function Copyright(props) {
   return (
@@ -76,11 +77,7 @@ export default function SignIn({setSign}) {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h4">
-          <img src={Logo} alt={Logo} width="100"/>
-
-            JobManager
-          </Typography>
+          <LogoJobManager/>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"

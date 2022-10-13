@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Title, Head} from './styled';
 import User from '../../utils/User'
-import {AiOutlineMenu} from 'react-icons/ai'
+import styled from 'styled-components';
 
 
 function Header() {
@@ -10,7 +10,7 @@ function Header() {
     return(
         
         <Container>
-            <Title>Jobs Manager</Title>
+            <Titulo><h3 className='fix-stroke'>JobManager</h3></Titulo>
             <Head>
                 <User/>
             </Head>
@@ -20,3 +20,22 @@ function Header() {
 }
 
 export default Header;
+
+
+const Titulo = styled(Title)`
+    background-color:#5a189a;
+    
+    h3{
+        color: #ffd700;
+        font-family: 'Saira Stencil One';
+      -webkit-text-stroke: 2px black;
+      filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 1));
+      font-size: x-large;
+
+    }
+
+    .fix-stroke {
+   paint-order: stroke fill;
+    }
+
+`

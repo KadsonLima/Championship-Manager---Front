@@ -20,7 +20,7 @@ export const Container = styled.div`
 export const Title = styled.div`
     width:230px;
     display: flex;
-    background-color: #3a0ca3;
+    background-color: #5a189a;
     align-items: center;
     justify-content: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
