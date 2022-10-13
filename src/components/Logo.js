@@ -77,7 +77,7 @@ const Container = styled.div`
     }
     h3{
       margin-left: 57px;
-      font-size: 40px;
+      font-size: 30px;
       color: #ffd700;
       -webkit-text-stroke: 5px black;
       filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 1));

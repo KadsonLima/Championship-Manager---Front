@@ -186,6 +186,14 @@ const JobData = styled.div`
   h3 {
     margin: 0;
   }
+  p{
+    width:100%;
+    background-color: #ebebeb;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: smaller;
+  }
 `;
 
 const Tags = styled.div`

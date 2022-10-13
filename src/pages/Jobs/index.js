@@ -5,6 +5,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { TokenContext } from "../../contexts/tokenContext";
 import Page from "../../components/Page/Page";
+import { ChipTags } from "../../components/setTags";
 
 function Jobs() {
   const { jobs, jobError, getJobs, loadingJobs } = useGetJobs();
@@ -42,7 +43,6 @@ const JobsList = ({ loadingJobs, jobs }) => {
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Inscritos</th>
           <th>Candidatura</th>
         </tr>
       </thead>
@@ -52,8 +52,7 @@ const JobsList = ({ loadingJobs, jobs }) => {
         return (
           <tr key={index}>
             <td className="job" onClick={()=>{navigate(`/job/${job.id}`)}}>{job.name}</td>
-            <td>{job._count.subscribes}</td>
-            <td>{job.active?'Aberto':'Fechado'}</td>
+            <td>{job.active?<ChipTags size="small" color="success" label="Aberto"/>:<ChipTags size="small" color="error"  label="Fechado"/>}</td>
           </tr>
         );
       })}
@@ -149,6 +148,10 @@ export const Container = styled.div`
       white-space: nowrap;
       table-layout: fixed;
   
+    }
+    td:last-child{
+      display: flex;
+      justify-content: center;
     }
     thead tr:first-child{
       background-color: #ffffff ;

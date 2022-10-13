@@ -12,18 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { RotatingLines } from 'react-loader-spinner';
 import { LogoJobManager } from '../../../components/Logo';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="#">
-        JobManager
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const theme = createTheme();
 
@@ -68,7 +57,6 @@ export default function SignIn({setSign}) {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -120,7 +108,7 @@ export default function SignIn({setSign}) {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+
       </Container>
     </ThemeProvider>
   );

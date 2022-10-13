@@ -138,4 +138,8 @@ const FormTeam = styled(Form)`
     top:5px; 
   }
   
+  @media (max-width:750px){
+        width: 100%;
+        height:100%;
+    };
 `;

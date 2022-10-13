@@ -52,7 +52,7 @@ const ContainerChips = styled.div`
 
 `
 
-const ChipTags = styled(Chip)`
+export const ChipTags = styled(Chip)`
 
     span {
     overflow:visible;
