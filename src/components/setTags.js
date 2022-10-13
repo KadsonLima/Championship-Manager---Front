@@ -40,12 +40,17 @@ export const SetTags = ({tags, setTag}) =>{
 
 
     return ( 
-        <Stack direction="row" spacing={1}>
+        <ContainerChips>
         {tagsOptions} 
-        </Stack>
+        </ContainerChips>
         )
 }
+const ContainerChips = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
 
+`
 
 const ChipTags = styled(Chip)`
 
