@@ -31,7 +31,7 @@ function Home() {
         </Button>
         <Button variant="contained" onClick={() => setJobCreate(true)}>Enviar Vaga</Button>
       </Stack>
-      <FormCandidate header={header} tags={jobs?.tags} />
+      <FormCandidate header={header} tags={jobs?.tags} exps={jobs?.exps} />
       {createJob&&<FormJob header={header} tags={jobs?.tags} exps={jobs?.exps} setJobCreate={setJobCreate}/>}
     </Page>
   );

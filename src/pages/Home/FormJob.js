@@ -96,7 +96,7 @@ export const FormJob = ({ tags, exps , setJobCreate, header}) => {
   );
 };
 
-const Option = styled.div`
+export const Option = styled.div`
     flex-direction: column;
     display: flex;
     width: 100%;

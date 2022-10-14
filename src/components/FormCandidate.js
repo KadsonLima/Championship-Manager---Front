@@ -7,9 +7,13 @@ import styled from "styled-components";
 import { Form } from "./Form";
 import Modal from "react-modal";
 import { TokenContext } from "../contexts/tokenContext";
+import { Option } from "../pages/Home/FormJob";
+import { SetTags } from "./setTags";
 
-export const FormCandidate = ({ header }) => {
+export const FormCandidate = ({ header , exps, tags }) => {
   const { modalIsOpen, setIsOpen } = useContext(TokenContext);
+  const [exp, setExp] = useState([]);
+  const [tag, setTag] = useState([]);
   const [form, setForm] = useState({});
   const files = useRef(null);
   const {
@@ -32,15 +36,18 @@ export const FormCandidate = ({ header }) => {
   const sendFile = async (event) => {
     event.preventDefault();
     const dataForm = new FormData();
+
     for (const file of files.current.files) {
       dataForm.append("curriculum", file);
     }
+
     dataForm.append("name", form.name);
     dataForm.append("email", form.email);
+    dataForm.append("tags", tag);
+    dataForm.append("exps", exp);
 
-    act(dataForm, header).then((e) => {
-      setIsOpen(false);
-    });
+    act(dataForm, header)
+    console.log(dataForm)
   };
 
   const loadingTime = loading ? (
@@ -79,6 +86,15 @@ export const FormCandidate = ({ header }) => {
               atribuirDados(e);
             }}
           />
+          <Option>
+            <span>Tecnologias</span>
+            <SetTags tags={tags} setTag={setTag} />
+          </Option>
+          <Option>
+            <span>Experiencia</span>
+            <SetTags tags={exps} setTag={setExp} />
+
+          </Option>
           <input type="file" accept="application/pdf" ref={files} />
           <Button
             variant="contained"
